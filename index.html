@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infoblox Value Model</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Infoblox Value Model</h1>
+      <p>Compare the conservative business value of Infoblox vs without Infoblox. Enable competitor comparison only when you need it.</p>
+    </header>
+
+    <section class="panel">
+      <h2>Assumptions</h2>
+      <div class="field-row">
+        <label for="managedIps">Managed IP Addresses</label>
+        <input type="number" id="managedIps" value="2500" min="100" step="100" />
+      </div>
+      <div class="field-row">
+        <label for="incidentsPerYear">Incidents per year</label>
+        <input type="number" id="incidentsPerYear" value="3" min="0" step="1" />
+      </div>
+      <div class="field-row">
+        <label for="avgIncidentCost">Average cost per incident ($)</label>
+        <input type="number" id="avgIncidentCost" value="55000" min="0" step="1000" />
+      </div>
+      <div class="field-row">
+        <label for="itHourlyRate">IT hourly rate ($)</label>
+        <input type="number" id="itHourlyRate" value="90" min="20" step="5" />
+      </div>
+      <div class="field-row">
+        <label for="manualHoursPerIp">Manual admin hours / year</label>
+        <input type="number" id="manualHoursPerIp" value="0.5" min="0" step="0.1" />
+      </div>
+      <div class="field-row">
+        <label for="infobloxHoursPerIp">Infoblox admin hours / year</label>
+        <input type="number" id="infobloxHoursPerIp" value="0.15" min="0" step="0.05" />
+      </div>
+      <div class="field-row tooltip-wrapper">
+        <label for="infobloxProduct">Infoblox product <span class="info-icon" id="productInfoIcon">i</span></label>
+        <select id="infobloxProduct">
+          <option value="Infoblox DDI">Infoblox DDI</option>
+          <option value="Infoblox IPAM">Infoblox IPAM</option>
+          <option value="BloxOne DDI">BloxOne DDI</option>
+          <option value="Custom">Custom</option>
+        </select>
+        <div id="productTooltip" class="tooltip-box hidden">Hover the info icon for details.</div>
+      </div>
+      <div class="field-row">
+        <label></label>
+        <p id="infobloxProductInfo" class="source-text">Standard Infoblox DDI assumptions are active.</p>
+      </div>
+      <div class="field-row">
+        <label for="compareCompetitor">Compare competitor</label>
+        <input type="checkbox" id="compareCompetitor" />
+      </div>
+      <div class="field-row competitor-only hidden">
+        <label for="competitorEfficiency">Competitor efficiency vs manual (%)</label>
+        <input type="number" id="competitorEfficiency" value="65" min="10" max="100" step="5" />
+      </div>
+      <div class="field-row competitor-only hidden">
+        <label for="competitorName">Competitor</label>
+        <select id="competitorName">
+          <option value="BlueCat">BlueCat</option>
+          <option value="EfficientIP">EfficientIP</option>
+          <option value="Cisco DDI">Cisco DDI</option>
+          <option value="SolarWinds">SolarWinds</option>
+          <option value="Men&amp;Mice">Men&amp;Mice</option>
+          <option value="BT Diamond IP">BT Diamond IP</option>
+          <option value="Custom">Custom</option>
+        </select>
+      </div>
+      <div class="field-row competitor-only hidden">
+        <label>Competitor source</label>
+        <p id="competitorSource" class="source-text">Based on public market comparisons and peer reviews from PeerSpot, ControlD, and SourceForge.</p>
+      </div>
+      <div class="buttons">
+        <button id="updatePrompt">Update values by prompt</button>
+        <button id="generatePpt">Export to PowerPoint</button>
+      </div>
+    </section>
+
+    <section class="panel competitor-presets competitor-only hidden">
+      <h2>Competitor assumptions</h2>
+      <p class="source-text">Preset values are conservative averages inferred from trusted industry comparison sources.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Competitor</th>
+            <th>Efficiency vs manual</th>
+            <th>Incident factor</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>BlueCat</td>
+            <td>74%</td>
+            <td>0.72</td>
+            <td>PeerSpot / ControlD</td>
+          </tr>
+          <tr>
+            <td>EfficientIP</td>
+            <td>70%</td>
+            <td>0.75</td>
+            <td>PeerSpot</td>
+          </tr>
+          <tr>
+            <td>Cisco DDI</td>
+            <td>66%</td>
+            <td>0.80</td>
+            <td>Industry data</td>
+          </tr>
+          <tr>
+            <td>SolarWinds</td>
+            <td>62%</td>
+            <td>0.85</td>
+            <td>SourceForge</td>
+          </tr>
+          <tr>
+            <td>Men&amp;Mice</td>
+            <td>70%</td>
+            <td>0.78</td>
+            <td>Review averages</td>
+          </tr>
+          <tr>
+            <td>BT Diamond IP</td>
+            <td>64%</td>
+            <td>0.82</td>
+            <td>Market positioning</td>
+          </tr>
+          <tr>
+            <td>Custom</td>
+            <td colspan="2">Editable manually</td>
+            <td>Custom competitor</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel results">
+      <h2>Comparison Results</h2>
+      <div class="result-summary">
+        <div class="result-card">
+          <h3>Without Infoblox</h3>
+          <p id="valueWithout">-</p>
+        </div>
+          <div class="result-card">
+          <h3 id="infobloxProductLabel">With Infoblox</h3>
+          <p id="valueWith">-</p>
+        </div>
+        <div class="result-card competitor-only hidden">
+          <h3 id="competitorLabel">Competitor</h3>
+          <p id="valueCompetitor">-</p>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Without Infoblox</th>
+            <th>Infoblox</th>
+            <th id="competitorHeader" class="competitor-only hidden">Competitor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DNS/IPAM labor cost</td>
+            <td id="laborWithout">-</td>
+            <td id="laborWith">-</td>
+            <td id="laborCompetitor" class="competitor-only hidden">-</td>
+          </tr>
+          <tr>
+            <td>Incident cost</td>
+            <td id="incidentWithout">-</td>
+            <td id="incidentWith">-</td>
+            <td id="incidentCompetitor" class="competitor-only hidden">-</td>
+          </tr>
+          <tr>
+            <td>Total annual cost</td>
+            <td id="totalWithout">-</td>
+            <td id="totalWith">-</td>
+            <td id="totalCompetitor" class="competitor-only hidden">-</td>
+          </tr>
+          <tr>
+            <td>Savings vs no Infoblox</td>
+            <td colspan="3" id="savingsWith">-</td>
+          </tr>
+          <tr class="competitor-only hidden">
+            <td>Savings vs competitor</td>
+            <td colspan="3" id="savingsCompetitor">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.10.0/dist/pptxgen.bundle.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
